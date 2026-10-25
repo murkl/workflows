@@ -29,7 +29,7 @@ refuses() {
 commit 'feat: the first (#1)'
 expect "$(sh "$notes" 1.0.0)" '### Features
 
-* the first'
+* The first'
 git tag 1.0.0
 
 commit 'fix: a crash (#2)'
@@ -39,19 +39,19 @@ commit 'feat!: a new format'
 commit 'an untyped change'
 expect "$(sh "$notes" 1.1.0)" '### ⚠ BREAKING CHANGES
 
-* a new format
+* A new format
 
 ### Features
 
-* **shell:** word keys
+* **shell:** Word keys
 
 ### Bug Fixes
 
-* a crash
+* A crash
 
 ### Other Changes
 
-* an untyped change'
+* An untyped change'
 
 refuses v1.1.0 'though it is no version'
 refuses 0.9.0 'though it is below 1.0.0'
