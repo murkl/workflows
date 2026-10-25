@@ -4,7 +4,7 @@ CI steps shared by **[Arch OS](https://github.com/murkl/arch-os)**, its **[Syste
 
 ## Release Notes
 
-`notes` checks a pushed version tag and writes its notes out of the commit titles since the last release.
+`notes` checks a pushed version tag and writes its notes out of the commit titles since the last release. Each title is a short phrase a user understands, the notes start it with a capital: `feat: the Recovery updates itself` becomes `* The Recovery updates itself` under Features.
 
 ```yaml
 release:

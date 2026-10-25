@@ -1,7 +1,8 @@
 #!/usr/bin/env sh
 # The release notes of a version on main: the commit titles since the release
-# before, by type. Fails where the version is no release. Without its tag it
-# reads HEAD, so it runs in the project before the tag too, as tags never move.
+# before, by type, each from a capital. Fails where the version is no release.
+# Without its tag it reads HEAD, so it runs in the project before the tag too,
+# as tags never move.
 #
 #   ../workflows/notes/notes.sh 2.1.0 && git tag 2.1.0 && git push origin 2.1.0
 set -eu
@@ -41,12 +42,13 @@ fi
 titles="$(git log --format=%s "$range")"
 tab="$(printf '\t')"
 notes="$(printf '%s\n' "$titles" | awk -v OFS="$tab" '
+    function capital(s) { return toupper(substr(s, 1, 1)) substr(s, 2) }
     $0 == "" { next }
     { sub(/ \(#[0-9]+\)$/, "") }
-    !match($0, /^[a-z]+(\([^)]+\))?!?: /) { print 5, $0; next }
+    !match($0, /^[a-z]+(\([^)]+\))?!?: /) { print 5, capital($0); next }
     {
         head = substr($0, 1, RLENGTH - 2)
-        text = substr($0, RLENGTH + 1)
+        text = capital(substr($0, RLENGTH + 1))
         type = head
         sub(/[(!].*/, "", type)
         if (match(head, /\(.*\)/)) text = "**" substr(head, RSTART + 1, RLENGTH - 2) ":** " text
