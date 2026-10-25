@@ -1,0 +1,37 @@
+# Pull requests are checked.
+
+name: CI
+
+on:
+  pull_request:
+
+permissions: {}
+
+# Every step in bash with pipefail, as the Makefile runs its recipes.
+defaults:
+  run:
+    shell: bash
+
+# A new push replaces a pull request's run.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # make check on Arch, as the projects run it.
+  check:
+    name: Check
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    # The date names the base, the digest pins it.
+    container: archlinux:base-devel-20261011.0.609700@sha256:061679925e5d5028f2df9395d441ce6c4b9accf0157ff3486c06b6962e014ef1
+    permissions:
+      contents: read
+    steps:
+      - run: pacman -Syu --noconfirm --needed make git shellcheck shfmt actionlint zizmor
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - run: make check

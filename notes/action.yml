@@ -1,0 +1,28 @@
+# The pushed version tag, checked out with the whole history, and its release
+# notes out of notes.sh. Fails where the tag is no release.
+
+name: Release notes
+description: Checks a pushed version tag and writes its release notes.
+
+outputs:
+  version:
+    description: The version, as the tag names it
+    value: ${{ steps.notes.outputs.version }}
+  notes:
+    description: The release notes in Markdown
+    value: ${{ steps.notes.outputs.notes }}
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        fetch-depth: 0
+        persist-credentials: false
+
+    # Each line of the notes opens on # or *, so EOF never ends them early.
+    - id: notes
+      shell: bash
+      run: |
+        notes="$("${GITHUB_ACTION_PATH}/notes.sh" "$GITHUB_REF_NAME")"
+        printf 'notes<<EOF\n%s\nEOF\nversion=%s\n' "$notes" "$GITHUB_REF_NAME" >>"$GITHUB_OUTPUT"
