@@ -12,6 +12,7 @@ check: lint test
 lint:
 	shellcheck -s sh -S style $(SCRIPTS)
 	shfmt -d -ln posix -i 4 $(SCRIPTS)
+	python3 -I -c 'import ast, sys; ast.parse(open(sys.argv[1]).read(), sys.argv[1])' banner/banner.py
 	actionlint
 	zizmor --offline --persona auditor .
 
