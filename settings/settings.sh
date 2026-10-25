@@ -1,12 +1,16 @@
 #!/usr/bin/env sh
-# Applies .github/settings/ to this repository on GitHub, as an admin logged in
-# with gh. Every call sets a whole state, so a rerun changes nothing. The same
-# file in every project released this way.
+# Applies .github/settings/ of the project it runs in to its repository on
+# GitHub, as an admin logged in with gh. Every call sets a whole state, so a
+# rerun changes nothing.
 #
-#   .github/settings.sh
+#   ../workflows/settings/settings.sh
 set -eu
 
-dir="$(dirname "$0")/settings"
+dir=.github/settings
+[ -d "$dir" ] || {
+    echo "settings.sh: no ${dir}/ here, run it in a project" >&2
+    exit 1
+}
 
 gh api --silent -X PATCH 'repos/{owner}/{repo}' --input "${dir}/repository.json"
 gh api --silent -X PUT 'repos/{owner}/{repo}/actions/permissions/workflow' --input "${dir}/actions.json"
