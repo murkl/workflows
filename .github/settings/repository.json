@@ -1,5 +1,5 @@
 {
-  "description": "CI steps shared by Arch OS, its System Manager, D2Launcher and the Plymouth theme • Release notes from version tags",
+  "description": "CI actions and scripts",
   "has_wiki": false,
   "has_projects": false,
   "allow_merge_commit": false,
