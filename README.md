@@ -55,6 +55,14 @@ Before the tag, in the project next to this checkout:
 | `topics.json` | Topics, optional |
 | `code-scanning.json` | Code scanning, optional |
 
+## Banner
+
+`banner.py` renders a project's `docs/banner.png`, also its social preview, out of two screenshots and its `product.yaml`. Needs chromium and imagemagick. In the project:
+
+```
+python3 ../workflows/banner/banner.py --tagline "…" --card back.png --card front.png
+```
+
 ## Development
 
 ```

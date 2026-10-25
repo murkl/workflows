@@ -28,7 +28,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - run: pacman -Syu --noconfirm --needed make git shellcheck shfmt actionlint zizmor
+      - run: pacman -Syu --noconfirm --needed make git shellcheck shfmt actionlint zizmor python
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
