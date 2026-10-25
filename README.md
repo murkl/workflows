@@ -39,6 +39,22 @@ Before the tag, in the project next to this checkout:
 - Refused: no x.y.z, not on `main`, not above the last release, nothing for users
 - Tags never move, so a refused tag is never pushed
 
+## Settings
+
+`settings.sh` applies a project's `.github/settings/` to its repository on GitHub, as an admin logged in with `gh`. In the project:
+
+```
+../workflows/settings/settings.sh
+```
+
+| File | Says |
+| --- | --- |
+| `repository.json` | Description, merge methods and features |
+| `actions.json` | Workflow token permissions |
+| `ruleset-*.json` | One ruleset each, found by its name |
+| `topics.json` | Topics, optional |
+| `code-scanning.json` | Code scanning, optional |
+
 ## Development
 
 ```
@@ -46,4 +62,4 @@ make check    # the gate CI runs
 make github   # .github/settings/ applied, as an admin
 ```
 
-A change is tagged as a version. Dependabot raises it in every project.
+A change of an action is tagged as a version. Dependabot raises it in every project.

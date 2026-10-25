@@ -2,7 +2,7 @@
 SHELL       := bash
 .SHELLFLAGS := -eu -o pipefail -c
 
-SCRIPTS := $(wildcard notes/*.sh .github/*.sh)
+SCRIPTS := $(wildcard notes/*.sh settings/*.sh)
 
 .PHONY: check lint test github
 
@@ -21,4 +21,4 @@ test:
 # The repository's settings on GitHub, out of .github/settings/. Run by hand as
 # an admin: a workflow may not change the rules it is held to.
 github:
-	.github/settings.sh
+	settings/settings.sh
