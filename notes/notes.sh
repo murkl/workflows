@@ -26,14 +26,14 @@ case $status in
 *) exit "$status" ;;
 esac
 
-# Release tags, v2.0.0 included. The date tags of 1.9.0 have one dot.
+# Release tags. The date tags of 1.9.0 have one dot.
 pattern='[0-9]*.[0-9]*.[0-9]*'
 range="$ref"
 previous="the first commit"
-if [ -n "$(git tag --list "$pattern" "v${pattern}" --merged "$ref" --no-contains "$ref")" ]; then
-    previous="$(git describe --tags --abbrev=0 --match "$pattern" --match "v${pattern}" "${ref}^")"
-    newest="$(printf '%s\n%s\n' "${previous#v}" "$version" | sort -V | tail -n 1)"
-    if [ "$newest" != "$version" ] || [ "${previous#v}" = "$version" ]; then
+if [ -n "$(git tag --list "$pattern" --merged "$ref" --no-contains "$ref")" ]; then
+    previous="$(git describe --tags --abbrev=0 --match "$pattern" "${ref}^")"
+    newest="$(printf '%s\n%s\n' "$previous" "$version" | sort -V | tail -n 1)"
+    if [ "$newest" != "$version" ] || [ "$previous" = "$version" ]; then
         fail "${version} is not above ${previous}"
     fi
     range="${previous}..${ref}"
